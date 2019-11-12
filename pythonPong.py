@@ -5,7 +5,6 @@
 
 import turtle   # turtle module for basic graphics
 import os
-import sys
 
 
 # Creating game window,
@@ -97,6 +96,7 @@ def right_paddle_down():
 
 def game_over():
     if score_a == 5:
+        os.system("afplay winner.wav&")     # playing winner sound
         left_paddle.hideturtle()
         right_paddle.hideturtle()
         ball.goto(0,0)          # setting ball back to center
@@ -106,6 +106,7 @@ def game_over():
         endgame.write("Player A Wins!", align="center", font=("Courier", 48, "bold"))
     #restart.write("Press 'R' to restart or 'X' to close!", align="center", font=("Courier", 24, "bold"))
     elif score_b == 5:
+        os.system("afplay winner.wav&")     # playing winner sound
         left_paddle.hideturtle()    # hiding left paddle
         right_paddle.hideturtle()   # hiding right paddle
         ball.goto(0,0)          # setting ball back to center
@@ -113,7 +114,7 @@ def game_over():
         ball.dy = 0
         ball.hideturtle()       # hiding ball
         endgame.write("Player B Wins!", align="center", font=("Courier", 48, "bold"))
-#restart.write("Press 'R' to restart or 'X' to close!", align="center", font=("Courier", 24, "bold"))
+    #restart.write("Press 'R' to restart or 'X' to close!", align="center", font=("Courier", 24, "bold"))
 
 # Keyboard Bindings
 window.listen()
@@ -143,26 +144,28 @@ while True:
 
     if ball.xcor() > 398:       # 398 comes from the width of screen and moving in 2 pixels. Means ball has                                 passed paddle.
         score_a += 1            # adding point to player A
+        os.system("afplay score.wav&")     # playing score sound
         ball.goto(0,0)          # setting ball back to center
         ball.dx *= -1           # reversing ball direction
         scoreboard.clear()      # clearing the scoreboard for the updated point
         scoreboard.write("Player A: {}   Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "bold"))
-        game_over()
+        game_over()             # calling the game_over function to check scores and display winner if there is one
 
     if ball.xcor() < -398:       # 398 comes from the width of screen and moving in 2 pixels. Means ball has                                 passed paddle.
         score_b += 1            # adding point to player B
+        os.system("afplay score.wav&")     # playing score sound
         ball.goto(0,0)          # setting ball back to center
         ball.dx *= -1           # reversing ball direction
         scoreboard.clear()      # clearing the scoreboard for the updated point
         scoreboard.write("Player A: {}   Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "bold"))
-        game_over()
+        game_over()             # calling the game_over function to check scores and display winner if there is one
     
 
     # Paddle and Ball collisions
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < right_paddle.ycor() + 50 and ball.ycor() > right_paddle.ycor() - 50):
-        ball.dx *= -1                       #reversing ball direction
-        os.system("afplay bounce.wav&")     #playing bounce sound
+        ball.dx *= -1                       # reversing ball direction
+        os.system("afplay bounce.wav&")     # playing bounce sound
 
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < left_paddle.ycor() + 50 and ball.ycor() > left_paddle.ycor() - 50):
-        ball.dx *= -1                       #reversing ball direction
-        os.system("afplay bounce.wav&")     #playing bounce sound
+        ball.dx *= -1                       # reversing ball direction
+        os.system("afplay bounce.wav&")     # playing bounce sound
